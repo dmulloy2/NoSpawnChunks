@@ -1,0 +1,23 @@
+# NoSpawnChunksPlus Configuration
+# By dmulloy2
+
+# Worlds to unload chunks for. If '*' is in the list,
+# it will unload chunks for all worlds.
+worlds:
+  - '*'
+
+# Chunk Unload Task - periodically unloads chunks
+# Enabled - boolean
+# Interval - integer (in minutes)
+task:
+  enabled: true
+  interval: 15
+
+# Java Garbage Collection
+# task (boolean) - whether or not to run the garbage
+# collector in the unload task.
+# unloading (boolean) - whether or not to run garbage
+# collector whenever we unload chunks.
+garbageCollector:
+  task: true
+  unloading: false

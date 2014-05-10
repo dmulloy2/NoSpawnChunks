@@ -1,0 +1,15 @@
+name: NoSpawnChunksPlus
+main: net.dmulloy2.nospawnchunksplus.NoSpawnChunksPlus
+version: ${project.version} (Build ${project.build.number})
+description: Helps manage server memory by dynamically unloading chunks
+author: dmulloy2
+prefix: NoSpawnChunks
+commands:
+  nsc:
+    description: NoSpawnChunksPlus root command
+    usage: /<command> <args>
+permissions:
+  nospawnchunksplus.reload:
+    default: op
+  nospawnchunksplus.unloadchunks:
+    default: op
