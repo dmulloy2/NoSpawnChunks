@@ -192,7 +192,7 @@ public class NoSpawnChunksPlus extends JavaPlugin implements Reloadable
 
 		if ( args[0].equalsIgnoreCase( "unload" ) || args[0].equalsIgnoreCase( "unloadchunks" ) )
 		{
-			if ( ! sender.hasPermission( "nospawnchunks.unloadchunks" ) )
+			if ( ! sender.hasPermission( "nospawnchunksplus.unloadchunks" ) )
 			{
 				sender.sendMessage( prefix + FormatUtil.format( "&4You do not have permission to do this!" ) );
 				return;
