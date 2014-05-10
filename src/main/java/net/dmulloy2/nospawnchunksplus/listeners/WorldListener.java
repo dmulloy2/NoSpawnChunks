@@ -36,7 +36,7 @@ public class WorldListener implements Listener
 	{
 		World world = event.getFrom();
 		if ( world.getPlayers().isEmpty() )
-			plugin.unloadAutomatically( world, 20L );
+			plugin.unloadLater( world, 20L );
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -51,6 +51,6 @@ public class WorldListener implements Listener
 			return;
 
 		if ( world.getPlayers().isEmpty() )
-			plugin.unloadAutomatically( world, 20L );
+			plugin.unloadLater( world, 20L );
 	}
 }

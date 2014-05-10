@@ -140,19 +140,23 @@ public class NoSpawnChunksPlus extends JavaPlugin implements Reloadable
 		return unloadedChunks;
 	}
 
-	public final void unloadAutomatically(World world, long delay)
+	public final void unloadLater(final World world, long delay)
 	{
-		if ( world.getPlayers().size() == 0 )
+		new BukkitRunnable()
 		{
-			int unloadedChunks = unloadChunks( world );
-			if ( unloadedChunks > 0 )
+			@Override
+			public void run()
 			{
-				log( "Unloaded {0} chunks from world {1}!", unloadedChunks, world.getName() );
+				int unloadedChunks = unloadChunks( world );
+				if ( unloadedChunks > 0 )
+				{
+					log( "Unloaded {0} chunks from world {1}!", unloadedChunks, world.getName() );
 
-				if ( garbageCollectorUnloading )
-					runGarbageCollector();
+					if ( garbageCollectorUnloading )
+						runGarbageCollector();
+				}
 			}
-		}
+		}.runTaskLater( this, delay );
 	}
 
 	// ---- Garbage Collection
