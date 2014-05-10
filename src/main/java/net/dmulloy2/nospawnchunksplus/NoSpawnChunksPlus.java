@@ -168,7 +168,7 @@ public class NoSpawnChunksPlus extends JavaPlugin implements Reloadable
 		System.gc();
 
 		long freeMemoryEnd = Runtime.getRuntime().freeMemory();
-		long diff = ( freeMemoryEnd - freeMemoryStart ) >> 20;
+		long diff = ( freeMemoryEnd - freeMemoryStart ) << 20;
 		if ( diff > 0 )
 			log( "Freed {0} mb!", freeMemoryEnd - freeMemoryStart );
 	}
