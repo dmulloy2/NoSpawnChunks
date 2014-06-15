@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.dmulloy2</groupId>
   <artifactId>nospawnchunksplus</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <name>NoSpawnChunksPlus</name>
 
   <properties>
@@ -12,6 +12,10 @@
   </properties>
 
   <repositories>
+    <repository>
+      <id>minesworn-repo</id>
+      <url>http://ci.minesworn.com/plugin/repository/everything/</url>
+    </repository>
     <repository>
       <id>md_5-repo</id>
       <url>http://repo.md-5.net/content/repositories/snapshots/</url>
@@ -54,6 +58,26 @@
           <finalName>${project.name}</finalName>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-shade-plugin</artifactId>
+		<version>1.4</version>
+		<executions>
+		  <execution>
+		    <phase>package</phase>
+			<goals>
+			  <goal>shade</goal>
+			</goals>
+			<configuration>
+			  <artifactSet>
+			    <includes>
+			      <include>net.dmulloy2:swornapi*</include>
+			    </includes>
+			  </artifactSet>
+		    </configuration>
+		  </execution>
+	    </executions>
+      </plugin>
     </plugins>
     <resources>
       <resource>
@@ -76,9 +100,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.spigotmc</groupId>
-      <artifactId>spigot-api</artifactId>
-      <version>1.7.9-R0.1-SNAPSHOT</version>
+      <groupId>net.dmulloy2</groupId>
+      <artifactId>swornapi</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
  	  <groupId>org.projectlombok</groupId>

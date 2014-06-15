@@ -6,23 +6,23 @@ package net.dmulloy2.nospawnchunksplus;
 import java.util.List;
 import java.util.logging.Level;
 
+import net.dmulloy2.SwornPlugin;
 import net.dmulloy2.nospawnchunksplus.listeners.WorldListener;
-import net.dmulloy2.nospawnchunksplus.util.FormatUtil;
-import net.dmulloy2.nospawnchunksplus.util.Reloadable;
+import net.dmulloy2.types.Reloadable;
+import net.dmulloy2.util.FormatUtil;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * @author dmulloy2
  */
 
-public class NoSpawnChunksPlus extends JavaPlugin implements Reloadable
+public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 {
 	private List<String> worlds;
 
@@ -33,7 +33,7 @@ public class NoSpawnChunksPlus extends JavaPlugin implements Reloadable
 	private boolean garbageCollectorTask;
 	private boolean garbageCollectorUnloading;
 
-	private final String prefix = FormatUtil.format( "&6[&4&lNSC&6] " );
+	private final String prefix = FormatUtil.format( "&3[&eNoSpawnChunks&3]&e " );
 
 	@Override
 	public void onEnable()
