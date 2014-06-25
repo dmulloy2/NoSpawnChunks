@@ -18,7 +18,7 @@
     </repository>
     <repository>
       <id>md_5-repo</id>
-      <url>http://repo.md-5.net/content/repositories/snapshots/</url>
+      <url>http://repo.md-5.net/content/repositories/public/</url>
     </repository>
   </repositories>
 
