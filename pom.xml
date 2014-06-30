@@ -74,6 +74,15 @@
                   <include>net.dmulloy2:swornapi*</include>
                 </includes>
               </artifactSet>
+              <relocations>
+                <relocation>
+                  <pattern>net.dmulloy2</pattern>
+                  <shadedPattern>net.dmulloy2.nospawnchunksplus</shadedPattern>
+                  <excludes>
+                    <exclude>net.dmulloy2.nospawnchunksplus*</exclude>
+                  </excludes>
+                </relocation>
+              </relocations>
             </configuration>
           </execution>
         </executions>
