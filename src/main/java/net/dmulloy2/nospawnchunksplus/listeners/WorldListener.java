@@ -28,15 +28,19 @@ public class WorldListener implements Listener
 	public void onWorldInit(WorldInitEvent event)
 	{
 		World world = event.getWorld();
-		world.setKeepSpawnInMemory( false );
+		if ( plugin.isAllWorlds() || plugin.getWorlds().contains( world.getName().toLowerCase() ) )
+			world.setKeepSpawnInMemory( plugin.isKeepSpawnInMemory() );
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerChangedWorld(PlayerChangedWorldEvent event)
 	{
 		World world = event.getFrom();
-		if ( world.getPlayers().isEmpty() )
-			plugin.unloadLater( world, 20L );
+		if ( plugin.isAllWorlds() || plugin.getWorlds().contains( world.getName().toLowerCase() ) )
+		{
+			if ( world.getPlayers().isEmpty() )
+				plugin.unloadLater( world, 20L );
+		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -50,7 +54,10 @@ public class WorldListener implements Listener
 		if ( world == null )
 			return;
 
-		if ( world.getPlayers().isEmpty() )
-			plugin.unloadLater( world, 20L );
+		if ( plugin.isAllWorlds() || plugin.getWorlds().contains( world.getName().toLowerCase() ) )
+		{
+			if ( world.getPlayers().isEmpty() )
+				plugin.unloadLater( world, 20L );
+		}
 	}
 }

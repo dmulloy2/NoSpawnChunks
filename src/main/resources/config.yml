@@ -21,3 +21,7 @@ task:
 garbageCollector:
   task: true
   unloading: false
+
+# Whether or not to keep world spawns in memory
+# input - boolean
+keepSpawnInMemory: false

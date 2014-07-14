@@ -3,9 +3,11 @@
  */
 package net.dmulloy2.nospawnchunksplus;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import lombok.Getter;
 import net.dmulloy2.SwornPlugin;
 import net.dmulloy2.nospawnchunksplus.listeners.WorldListener;
 import net.dmulloy2.types.Reloadable;
@@ -24,11 +26,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 {
-	private List<String> worlds;
+	private @Getter List<String> worlds;
 
-	private boolean autoEnabled;
-	private boolean allWorlds;
-	private int delay;
+	private @Getter boolean keepSpawnInMemory;
+	private @Getter boolean autoEnabled;
+	private @Getter boolean allWorlds;
+	private @Getter int delay;
 
 	private boolean garbageCollectorTask;
 	private boolean garbageCollectorUnloading;
@@ -101,7 +104,9 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 
 	private final void loadConfig()
 	{
-		worlds = getConfig().getStringList( "worlds" );
+		worlds = new ArrayList<>();
+		for ( String world : getConfig().getStringList( "worlds" ) )
+			worlds.add( world.toLowerCase() );
 
 		autoEnabled = getConfig().getBoolean( "task.enabled" );
 		allWorlds = worlds.isEmpty() || worlds.contains( "*" );
@@ -117,7 +122,7 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 
 		for ( World world : getServer().getWorlds() )
 		{
-			if ( all || allWorlds || worlds.contains( world.getName() ) )
+			if ( all || allWorlds || worlds.contains( world.getName().toLowerCase() ) )
 				unloadedChunks += unloadChunks( world );
 		}
 
