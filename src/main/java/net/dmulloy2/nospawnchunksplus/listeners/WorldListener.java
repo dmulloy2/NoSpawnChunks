@@ -28,18 +28,18 @@ public class WorldListener implements Listener
 	public void onWorldInit(WorldInitEvent event)
 	{
 		World world = event.getWorld();
-		if ( plugin.isAllWorlds() || plugin.getWorlds().contains( world.getName().toLowerCase() ) )
-			world.setKeepSpawnInMemory( plugin.isKeepSpawnInMemory() );
+		if (plugin.isAllWorlds() || plugin.getWorlds().contains(world.getName().toLowerCase()))
+			world.setKeepSpawnInMemory(plugin.isKeepSpawnInMemory());
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerChangedWorld(PlayerChangedWorldEvent event)
 	{
 		World world = event.getFrom();
-		if ( plugin.isAllWorlds() || plugin.getWorlds().contains( world.getName().toLowerCase() ) )
+		if (plugin.isAllWorlds() || plugin.getWorlds().contains(world.getName().toLowerCase()))
 		{
-			if ( world.getPlayers().isEmpty() )
-				plugin.unloadLater( world, 20L );
+			if (world.getPlayers().isEmpty())
+				plugin.unloadLater(world, 20L);
 		}
 	}
 
@@ -47,17 +47,17 @@ public class WorldListener implements Listener
 	public void onPlayerQuit(PlayerQuitEvent event)
 	{
 		Player player = event.getPlayer();
-		if ( player == null )
+		if (player == null)
 			return;
 
 		World world = player.getWorld();
-		if ( world == null )
+		if (world == null)
 			return;
 
-		if ( plugin.isAllWorlds() || plugin.getWorlds().contains( world.getName().toLowerCase() ) )
+		if (plugin.isAllWorlds() || plugin.getWorlds().contains(world.getName().toLowerCase()))
 		{
-			if ( world.getPlayers().isEmpty() )
-				plugin.unloadLater( world, 20L );
+			if (world.getPlayers().isEmpty())
+				plugin.unloadLater(world, 20L);
 		}
 	}
 }

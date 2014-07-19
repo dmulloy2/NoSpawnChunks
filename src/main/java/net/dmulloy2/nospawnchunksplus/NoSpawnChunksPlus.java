@@ -36,7 +36,7 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 	private boolean garbageCollectorTask;
 	private boolean garbageCollectorUnloading;
 
-	private final String prefix = FormatUtil.format( "&3[&eNoSpawnChunks&3]&e " );
+	private final String prefix = FormatUtil.format("&3[&eNoSpawnChunks&3]&e ");
 
 	@Override
 	public void onEnable()
@@ -47,50 +47,50 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 		loadConfig();
 
 		// Register Commands
-		getCommand( "nsc" ).setExecutor( this );
+		getCommand("nsc").setExecutor(this);
 
 		// Register listener
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvents( new WorldListener( this ), this );
+		pm.registerEvents(new WorldListener(this), this);
 
 		// Deploy unload task
-		if ( autoEnabled )
+		if (autoEnabled)
 		{
 			new BukkitRunnable()
 			{
 				@Override
 				public void run()
 				{
-					log( "Unloading chunks..." );
-					log( "Unloaded {0} chunks!", unloadChunks( false ) );
+					log("Unloading chunks...");
+					log("Unloaded {0} chunks!", unloadChunks(false));
 
-					if ( garbageCollectorTask )
+					if (garbageCollectorTask)
 						runGarbageCollector();
 				}
-			}.runTaskTimer( this, 60L, delay );
+			}.runTaskTimer(this, 60L, delay);
 		}
 
-		log( "{0} has been enabled!", getDescription().getFullName() );
+		log("{0} has been enabled!", getDescription().getFullName());
 	}
 
 	@Override
 	public void onDisable()
 	{
-		getServer().getScheduler().cancelTasks( this );
+		getServer().getScheduler().cancelTasks(this);
 
-		log( "{0} has been disabled!", getDescription().getFullName() );
+		log("{0} has been disabled!", getDescription().getFullName());
 	}
 
 	// ---- Logging
 
 	public final void log(Level level, String string, Object... objects)
 	{
-		getLogger().log( level, FormatUtil.format( string, objects ) );
+		getLogger().log(level, FormatUtil.format(string, objects));
 	}
 
 	public final void log(String string, Object... objects)
 	{
-		log( Level.INFO, string, objects );
+		log(Level.INFO, string, objects);
 	}
 
 	// ---- Load / Reload
@@ -105,28 +105,28 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 	private final void loadConfig()
 	{
 		worlds = new ArrayList<>();
-		for ( String world : getConfig().getStringList( "worlds" ) )
-			worlds.add( world.toLowerCase() );
+		for (String world : getConfig().getStringList("worlds"))
+			worlds.add(world.toLowerCase());
 
-		autoEnabled = getConfig().getBoolean( "task.enabled" );
-		allWorlds = worlds.isEmpty() || worlds.contains( "*" );
-		delay = getConfig().getInt( "task.delay", 15 ) * 60 * 20;
+		autoEnabled = getConfig().getBoolean("task.enabled");
+		allWorlds = worlds.isEmpty() || worlds.contains("*");
+		delay = getConfig().getInt("task.delay", 15) * 60 * 20;
 
-		garbageCollectorTask = getConfig().getBoolean( "garbageCollector.task" );
-		garbageCollectorUnloading = getConfig().getBoolean( "garbageCollector.unloading" );
+		garbageCollectorTask = getConfig().getBoolean("garbageCollector.task");
+		garbageCollectorUnloading = getConfig().getBoolean("garbageCollector.unloading");
 	}
 
 	public final int unloadChunks(boolean all)
 	{
 		int unloadedChunks = 0;
 
-		for ( World world : getServer().getWorlds() )
+		for (World world : getServer().getWorlds())
 		{
-			if ( all || allWorlds || worlds.contains( world.getName().toLowerCase() ) )
-				unloadedChunks += unloadChunks( world );
+			if (all || allWorlds || worlds.contains(world.getName().toLowerCase()))
+				unloadedChunks += unloadChunks(world);
 		}
 
-		if ( garbageCollectorUnloading )
+		if (garbageCollectorUnloading)
 			runGarbageCollector();
 
 		return unloadedChunks;
@@ -136,9 +136,9 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 	{
 		int unloadedChunks = 0;
 
-		for ( Chunk chunk : world.getLoadedChunks() )
+		for (Chunk chunk : world.getLoadedChunks())
 		{
-			if ( chunk.unload( true, true ) )
+			if (chunk.unload(true, true))
 				unloadedChunks++;
 		}
 
@@ -152,16 +152,16 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 			@Override
 			public void run()
 			{
-				int unloadedChunks = unloadChunks( world );
-				if ( unloadedChunks > 0 )
+				int unloadedChunks = unloadChunks(world);
+				if (unloadedChunks > 0)
 				{
-					log( "Unloaded {0} chunks from world {1}!", unloadedChunks, world.getName() );
+					log("Unloaded {0} chunks from world {1}!", unloadedChunks, world.getName());
 
-					if ( garbageCollectorUnloading )
+					if (garbageCollectorUnloading)
 						runGarbageCollector();
 				}
 			}
-		}.runTaskLater( this, delay );
+		}.runTaskLater(this, delay);
 	}
 
 	// ---- Garbage Collection
@@ -173,9 +173,9 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 		System.gc();
 
 		long freeMemoryEnd = Runtime.getRuntime().freeMemory();
-		long diff = ( freeMemoryEnd - freeMemoryStart ) / 1024 / 1024;
-		if ( diff > 0 )
-			log( "Freed {0} mb!", diff );
+		long diff = (freeMemoryEnd - freeMemoryStart) / 1024 / 1024;
+		if (diff > 0)
+			log("Freed {0} mb!", diff);
 	}
 
 	// ---- Command Handling
@@ -183,74 +183,74 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
-		onCommand( sender, args );
+		onCommand(sender, args);
 		return true;
 	}
 
 	private final void onCommand(CommandSender sender, String[] args)
 	{
-		if ( args.length == 0 || args[0].equalsIgnoreCase( "version" ) )
+		if (args.length == 0 || args[0].equalsIgnoreCase("version"))
 		{
-			sender.sendMessage( prefix + FormatUtil.format( "&bNoSpawnChunks &ev&b{0} &eby &bdmulloy2", getDescription().getVersion() ) );
+			sender.sendMessage(prefix + FormatUtil.format("&bNoSpawnChunks &ev&b{0} &eby &bdmulloy2", getDescription().getVersion()));
 			return;
 		}
 
-		if ( args[0].equalsIgnoreCase( "unload" ) || args[0].equalsIgnoreCase( "unloadchunks" ) )
+		if (args[0].equalsIgnoreCase("unload") || args[0].equalsIgnoreCase("unloadchunks"))
 		{
-			if ( ! sender.hasPermission( "nospawnchunksplus.unloadchunks" ) )
+			if (! sender.hasPermission("nospawnchunksplus.unloadchunks"))
 			{
-				sender.sendMessage( prefix + FormatUtil.format( "&4You do not have permission to do this!" ) );
+				sender.sendMessage(prefix + FormatUtil.format("&4You do not have permission to do this!"));
 				return;
 			}
 
-			unloadChunks( sender, args );
+			unloadChunks(sender, args);
 			return;
 		}
 
-		if ( args[0].equalsIgnoreCase( "reload" ) || args[0].equalsIgnoreCase( "rl" ) )
+		if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl"))
 		{
-			if ( ! sender.hasPermission( "nospawnchunksplus.reload" ) )
+			if (! sender.hasPermission("nospawnchunksplus.reload"))
 			{
-				sender.sendMessage( prefix + FormatUtil.format( "&4You do not have permission to do this!" ) );
+				sender.sendMessage(prefix + FormatUtil.format("&4You do not have permission to do this!"));
 				return;
 			}
 
-			sender.sendMessage( prefix + FormatUtil.format( "&eReloading..." ) );
+			sender.sendMessage(prefix + FormatUtil.format("&eReloading..."));
 
 			reload();
 
-			sender.sendMessage( prefix + FormatUtil.format( "&eNoSpawnChunks has been reloaded!" ) );
+			sender.sendMessage(prefix + FormatUtil.format("&eNoSpawnChunks has been reloaded!"));
 			return;
 		}
 
-		sender.sendMessage( prefix + FormatUtil.format( "&4Unknown command!" ) );
+		sender.sendMessage(prefix + FormatUtil.format("&4Unknown command!"));
 		return;
 	}
 
 	private final void unloadChunks(CommandSender sender, String[] args)
 	{
 		boolean all = false;
-		if ( args.length > 0 )
-			all = args[0].equalsIgnoreCase( "all" );
+		if (args.length > 0)
+			all = args[0].equalsIgnoreCase("all");
 
 		World world = null;
-		if ( args.length > 0 )
-			world = getServer().getWorld( args[0] );
+		if (args.length > 0)
+			world = getServer().getWorld(args[0]);
 
-		sender.sendMessage( prefix + FormatUtil.format( "&eUnloading chunks..." ) );
-		log( "Unloading chunks..." );
+		sender.sendMessage(prefix + FormatUtil.format("&eUnloading chunks..."));
+		log("Unloading chunks...");
 
 		int unloaded = 0;
 
-		if ( world != null )
-			unloaded = unloadChunks( world );
+		if (world != null)
+			unloaded = unloadChunks(world);
 		else
-			unloaded = unloadChunks( all );
+			unloaded = unloadChunks(all);
 
-		sender.sendMessage( prefix + FormatUtil.format( "&b{0} &echunks unloaded!", unloaded ) );
-		log( "Unloaded {0} chunks!", unloaded );
+		sender.sendMessage(prefix + FormatUtil.format("&b{0} &echunks unloaded!", unloaded));
+		log("Unloaded {0} chunks!", unloaded);
 
-		if ( garbageCollectorUnloading )
+		if (garbageCollectorUnloading)
 			runGarbageCollector();
 	}
 }
