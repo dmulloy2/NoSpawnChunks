@@ -31,7 +31,7 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 	private @Getter boolean keepSpawnInMemory;
 	private @Getter boolean autoEnabled;
 	private @Getter boolean allWorlds;
-	private @Getter int delay;
+	private @Getter int interval;
 
 	private boolean garbageCollectorTask;
 	private boolean garbageCollectorUnloading;
@@ -67,7 +67,7 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 					if (garbageCollectorTask)
 						runGarbageCollector();
 				}
-			}.runTaskTimer(this, 60L, delay);
+			}.runTaskTimer(this, 60L, interval);
 		}
 
 		log("{0} has been enabled!", getDescription().getFullName());
@@ -110,7 +110,7 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 
 		autoEnabled = getConfig().getBoolean("task.enabled");
 		allWorlds = worlds.isEmpty() || worlds.contains("*");
-		delay = getConfig().getInt("task.delay", 15) * 60 * 20;
+		interval = getConfig().getInt("task.interval", 15) * 60 * 20;
 
 		garbageCollectorTask = getConfig().getBoolean("garbageCollector.task");
 		garbageCollectorUnloading = getConfig().getBoolean("garbageCollector.unloading");
