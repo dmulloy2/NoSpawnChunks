@@ -1,10 +1,10 @@
 /**
  * (c) 2014 dmulloy2
  */
-package net.dmulloy2.nospawnchunksplus.listeners;
+package net.dmulloy2.nospawnchunks.listeners;
 
 import lombok.AllArgsConstructor;
-import net.dmulloy2.nospawnchunksplus.NoSpawnChunksPlus;
+import net.dmulloy2.nospawnchunks.NoSpawnChunks;
 
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ import org.bukkit.event.world.WorldInitEvent;
 @AllArgsConstructor
 public class WorldListener implements Listener
 {
-	private final NoSpawnChunksPlus plugin;
+	private final NoSpawnChunks plugin;
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onWorldInit(WorldInitEvent event)

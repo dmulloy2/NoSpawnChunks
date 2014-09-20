@@ -1,30 +1,29 @@
 /**
  * (c) 2014 dmulloy2
  */
-package net.dmulloy2.nospawnchunksplus;
+package net.dmulloy2.nospawnchunks;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
 import lombok.Getter;
-import net.dmulloy2.SwornPlugin;
-import net.dmulloy2.nospawnchunksplus.listeners.WorldListener;
-import net.dmulloy2.types.Reloadable;
-import net.dmulloy2.util.FormatUtil;
+import net.dmulloy2.nospawnchunks.listeners.WorldListener;
+import net.dmulloy2.nospawnchunks.util.FormatUtil;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * @author dmulloy2
  */
 
-public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
+public class NoSpawnChunks extends JavaPlugin
 {
 	private @Getter List<String> worlds;
 
@@ -93,9 +92,8 @@ public class NoSpawnChunksPlus extends SwornPlugin implements Reloadable
 		log(Level.INFO, string, objects);
 	}
 
-	// ---- Load / Reload
+	// ---- Load and Reload
 
-	@Override
 	public void reload()
 	{
 		reloadConfig();
