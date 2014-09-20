@@ -5,10 +5,10 @@ description: Helps manage server memory by dynamically unloading chunks
 author: dmulloy2
 commands:
   nsc:
-    description: NoSpawnChunksPlus root command
+    description: NoSpawnChunks root command
     usage: /<command> <args>
 permissions:
-  nospawnchunksplus.reload:
+  nospawnchunks.reload:
     default: op
-  nospawnchunksplus.unloadchunks:
+  nospawnchunks.unloadchunks:
     default: op

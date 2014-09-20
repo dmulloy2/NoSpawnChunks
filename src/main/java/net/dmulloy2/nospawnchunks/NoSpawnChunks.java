@@ -195,7 +195,7 @@ public class NoSpawnChunks extends JavaPlugin
 
 		if (args[0].equalsIgnoreCase("unload") || args[0].equalsIgnoreCase("unloadchunks"))
 		{
-			if (! sender.hasPermission("nospawnchunksplus.unloadchunks"))
+			if (! sender.hasPermission("nospawnchunks.unloadchunks"))
 			{
 				sender.sendMessage(prefix + FormatUtil.format("&4You do not have permission to do this!"));
 				return;
@@ -207,7 +207,7 @@ public class NoSpawnChunks extends JavaPlugin
 
 		if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl"))
 		{
-			if (! sender.hasPermission("nospawnchunksplus.reload"))
+			if (! sender.hasPermission("nospawnchunks.reload"))
 			{
 				sender.sendMessage(prefix + FormatUtil.format("&4You do not have permission to do this!"));
 				return;
