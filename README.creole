@@ -1,2 +1,5 @@
-=NoSpawnChunksPlus=
+= NoSpawnChunks =
 Helps manage server memory by dynamically unloading chunks
+
+== Download ==
+http://ci.shadowvolt.com/job/NoSpawnChunks/
