@@ -69,7 +69,7 @@ public class NoSpawnChunks extends JavaPlugin
 		// Deploy unload task
 		if (autoEnabled)
 		{
-			new BukkitRunnable()
+			class UnloadChunksTask extends BukkitRunnable
 			{
 				@Override
 				public void run()
@@ -80,7 +80,9 @@ public class NoSpawnChunks extends JavaPlugin
 					if (garbageCollectorTask)
 						runGarbageCollector();
 				}
-			}.runTaskTimer(this, 60L, interval);
+			}
+
+			new UnloadChunksTask().runTaskTimer(this, 60L, interval);
 		}
 
 		log("{0} has been enabled!", getDescription().getFullName());
@@ -160,7 +162,7 @@ public class NoSpawnChunks extends JavaPlugin
 
 	public final void unloadLater(final World world, long delay)
 	{
-		new BukkitRunnable()
+		class UnloadLaterTask extends BukkitRunnable
 		{
 			@Override
 			public void run()
@@ -174,7 +176,9 @@ public class NoSpawnChunks extends JavaPlugin
 						runGarbageCollector();
 				}
 			}
-		}.runTaskLater(this, delay);
+		}
+
+		new UnloadLaterTask().runTaskLater(this, delay);
 	}
 
 	// ---- Garbage Collection
