@@ -13,12 +13,8 @@
 
   <repositories>
     <repository>
-      <id>minesworn-repo</id>
-      <url>http://ci.minesworn.com/plugin/repository/everything/</url>
-    </repository>
-    <repository>
-      <id>md_5-repo</id>
-      <url>http://repo.md-5.net/content/repositories/public/</url>
+      <id>shadowvolt-repo</id>
+      <url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
     </repository>
   </repositories>
 
@@ -41,7 +37,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.0.2</version>
+        <version>3.2</version>
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
@@ -50,7 +46,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.5</version>
         <configuration>
           <archive>
             <addMavenDescriptor>false</addMavenDescriptor>
@@ -83,8 +79,6 @@
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
       <version>1.8-R0.1-SNAPSHOT</version>
-      <scope>system</scope>
-      <systemPath>C:/lib/SpigotAPI.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
