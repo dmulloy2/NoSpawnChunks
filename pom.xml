@@ -13,8 +13,8 @@
 
   <repositories>
     <repository>
-      <id>shadowvolt-repo</id>
-      <url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
     </repository>
   </repositories>
 
