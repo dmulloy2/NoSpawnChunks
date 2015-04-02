@@ -46,14 +46,15 @@ public class NoSpawnChunks extends JavaPlugin
 	private @Getter boolean allWorlds;
 	private @Getter int interval;
 
-	private boolean garbageCollectorTask;
-	private boolean garbageCollectorUnloading;
+	private boolean gcTask, gcUnloading;
 
 	private final String prefix = FormatUtil.format("&3[&eNoSpawnChunks&3]&e ");
 
 	@Override
 	public void onEnable()
 	{
+		long start = System.currentTimeMillis();
+
 		// Configuration
 		saveDefaultConfig();
 		reloadConfig();
@@ -74,10 +75,9 @@ public class NoSpawnChunks extends JavaPlugin
 				@Override
 				public void run()
 				{
-					log("Unloading chunks...");
-					log("Unloaded {0} chunks!", unloadChunks(false));
+					unloadChunks(false);
 
-					if (garbageCollectorTask)
+					if (gcTask)
 						runGarbageCollector();
 				}
 			}
@@ -85,7 +85,7 @@ public class NoSpawnChunks extends JavaPlugin
 			new UnloadChunksTask().runTaskTimer(this, 60L, interval);
 		}
 
-		log("{0} has been enabled!", getDescription().getFullName());
+		log("{0} has been enabled. Took {1} ms.", getDescription().getFullName(), System.currentTimeMillis() - start);
 	}
 
 	@Override
@@ -93,17 +93,17 @@ public class NoSpawnChunks extends JavaPlugin
 	{
 		getServer().getScheduler().cancelTasks(this);
 
-		log("{0} has been disabled!", getDescription().getFullName());
+		log("{0} has been disabled.", getDescription().getFullName());
 	}
 
 	// ---- Logging
 
-	public final void log(Level level, String string, Object... objects)
+	public void log(Level level, String string, Object... objects)
 	{
 		getLogger().log(level, FormatUtil.format(string, objects));
 	}
 
-	public final void log(String string, Object... objects)
+	public void log(String string, Object... objects)
 	{
 		log(Level.INFO, string, objects);
 	}
@@ -116,7 +116,7 @@ public class NoSpawnChunks extends JavaPlugin
 		loadConfig();
 	}
 
-	private final void loadConfig()
+	private void loadConfig()
 	{
 		worlds = new ArrayList<>();
 		for (String world : getConfig().getStringList("worlds"))
@@ -127,28 +127,38 @@ public class NoSpawnChunks extends JavaPlugin
 		interval = getConfig().getInt("task.interval", 15) * 60 * 20;
 		keepSpawnInMemory = getConfig().getBoolean("keepSpawnInMemory", false);
 
-		garbageCollectorTask = getConfig().getBoolean("garbageCollector.task");
-		garbageCollectorUnloading = getConfig().getBoolean("garbageCollector.unloading");
+		gcTask = getConfig().getBoolean("garbageCollector.task");
+		gcUnloading = getConfig().getBoolean("garbageCollector.unloading");
 	}
 
-	public final int unloadChunks(boolean all)
+	public int unloadChunks(boolean all)
 	{
+		long start = System.currentTimeMillis();
+		log("Unloading chunks...");
+
 		int unloadedChunks = 0;
 
 		for (World world : getServer().getWorlds())
 		{
 			if (all || allWorlds || worlds.contains(world.getName().toLowerCase()))
-				unloadedChunks += unloadChunks(world);
+			{
+				for (Chunk chunk : world.getLoadedChunks())
+				{
+					if (chunk.unload(true, true))
+						unloadedChunks++;
+				}
+			}
 		}
 
-		if (garbageCollectorUnloading)
-			runGarbageCollector();
-
+		log("Unloaded {0} chunks. Took {1} ms.", unloadedChunks, System.currentTimeMillis() - start);
 		return unloadedChunks;
 	}
 
-	public final int unloadChunks(World world)
+	public int unloadChunks(World world)
 	{
+		long start = System.currentTimeMillis();
+		log("Unloading chunks in world {0}...", world.getName());
+
 		int unloadedChunks = 0;
 
 		for (Chunk chunk : world.getLoadedChunks())
@@ -157,24 +167,21 @@ public class NoSpawnChunks extends JavaPlugin
 				unloadedChunks++;
 		}
 
+		log("Unloaded {0} chunks. Took {1} ms.", unloadedChunks, System.currentTimeMillis() - start);
 		return unloadedChunks;
 	}
 
-	public final void unloadLater(final World world, long delay)
+	public void unloadLater(final World world, long delay)
 	{
 		class UnloadLaterTask extends BukkitRunnable
 		{
 			@Override
 			public void run()
 			{
-				int unloadedChunks = unloadChunks(world);
-				if (unloadedChunks > 0)
-				{
-					log("Unloaded {0} chunks from world {1}!", unloadedChunks, world.getName());
+				unloadChunks(world);
 
-					if (garbageCollectorUnloading)
-						runGarbageCollector();
-				}
+				if (gcUnloading)
+					runGarbageCollector();
 			}
 		}
 
@@ -183,7 +190,7 @@ public class NoSpawnChunks extends JavaPlugin
 
 	// ---- Garbage Collection
 
-	public final void runGarbageCollector()
+	public void runGarbageCollector()
 	{
 		long freeMemoryStart = Runtime.getRuntime().freeMemory();
 
@@ -204,7 +211,7 @@ public class NoSpawnChunks extends JavaPlugin
 		return true;
 	}
 
-	private final void onCommand(CommandSender sender, String[] args)
+	private void onCommand(CommandSender sender, String[] args)
 	{
 		if (args.length == 0 || args[0].equalsIgnoreCase("version"))
 		{
@@ -244,7 +251,7 @@ public class NoSpawnChunks extends JavaPlugin
 		return;
 	}
 
-	private final void unloadChunks(CommandSender sender, String[] args)
+	private void unloadChunks(CommandSender sender, String[] args)
 	{
 		boolean all = false;
 		if (args.length > 0)
@@ -265,9 +272,8 @@ public class NoSpawnChunks extends JavaPlugin
 			unloaded = unloadChunks(all);
 
 		sender.sendMessage(prefix + FormatUtil.format("&b{0} &echunks unloaded!", unloaded));
-		log("Unloaded {0} chunks!", unloaded);
 
-		if (garbageCollectorUnloading)
+		if (gcUnloading)
 			runGarbageCollector();
 	}
 }
