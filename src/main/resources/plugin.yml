@@ -1,6 +1,6 @@
 name: NoSpawnChunks
 main: net.dmulloy2.nospawnchunks.NoSpawnChunks
-version: ${project.version} (Build ${project.build.number})
+version: ${project.version}${project.build.number}
 description: Helps manage server memory by dynamically unloading chunks
 author: dmulloy2
 commands:
