@@ -144,8 +144,11 @@ public class NoSpawnChunks extends JavaPlugin
 			{
 				for (Chunk chunk : world.getLoadedChunks())
 				{
-					if (chunk.unload(true, true))
-						unloadedChunks++;
+					if (! world.isChunkInUse(chunk.getX(), chunk.getZ()))
+					{
+						if (chunk.unload(true))
+							unloadedChunks++;
+					}
 				}
 			}
 		}
@@ -163,8 +166,11 @@ public class NoSpawnChunks extends JavaPlugin
 
 		for (Chunk chunk : world.getLoadedChunks())
 		{
-			if (chunk.unload(true, true))
-				unloadedChunks++;
+			if (! world.isChunkInUse(chunk.getX(), chunk.getZ()))
+			{
+				if (chunk.unload(true))
+					unloadedChunks++;
+			}
 		}
 
 		log("Unloaded {0} chunks. Took {1} ms.", unloadedChunks, System.currentTimeMillis() - start);
