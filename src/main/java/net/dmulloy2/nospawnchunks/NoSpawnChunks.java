@@ -1,6 +1,6 @@
 /**
  * NoSpawnChunks - a Bukkit plugin
- * Copyright (C) - 2014 dmulloy2
+ * Copyright (C) - 2021 dmulloy2
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -254,7 +254,6 @@ public class NoSpawnChunks extends JavaPlugin
 		}
 
 		sender.sendMessage(prefix + FormatUtil.format("&4Unknown command!"));
-		return;
 	}
 
 	private void unloadChunks(CommandSender sender, String[] args)
@@ -270,12 +269,7 @@ public class NoSpawnChunks extends JavaPlugin
 		sender.sendMessage(prefix + FormatUtil.format("&eUnloading chunks..."));
 		log("Unloading chunks...");
 
-		int unloaded = 0;
-
-		if (world != null)
-			unloaded = unloadChunks(world);
-		else
-			unloaded = unloadChunks(all);
+		int unloaded = world != null ? unloadChunks(world) : unloadChunks(all);
 
 		sender.sendMessage(prefix + FormatUtil.format("&b{0} &echunks unloaded!", unloaded));
 

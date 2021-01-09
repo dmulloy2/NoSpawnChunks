@@ -3,6 +3,7 @@ main: net.dmulloy2.nospawnchunks.NoSpawnChunks
 version: ${project.version}${project.build.number}
 description: Helps manage server memory by dynamically unloading chunks
 author: dmulloy2
+api-version: 1.16
 commands:
   nsc:
     description: NoSpawnChunks root command
